@@ -39,3 +39,34 @@ def fruits_into_baskets(fruits):
       end += 1
 
   return max_length 
+
+
+def fruits_into_baskets(arr):
+    maximum_fruits = 0
+    NO_OF_BASKETS = 2
+    window_char_freq = dict()
+    window_start = 0
+    
+    for window_end in range(len(arr)):
+        curr_fruit = arr[window_end]
+        window_char_freq.update({
+            curr_fruit: window_char_freq.get(curr_fruit, 0) + 1
+        })
+        
+        while len(window_char_freq) > NO_OF_BASKETS:
+            remove_fruit = arr[window_start]
+            
+            # remove fruit
+            window_char_freq.update({
+                remove_fruit: window_char_freq.get(remove_fruit, 0) - 1
+            })
+            if window_char_freq[remove_fruit] <= 0:
+                del window_char_freq[remove_fruit]
+            
+            window_start += 1
+        
+        maximum_fruits = max(maximum_fruits, window_end - window_start + 1)
+    
+    return maximum_fruits
+
+# print(fruits_into_baskets(['A', 'B', 'C', 'B', 'B', 'C']))
